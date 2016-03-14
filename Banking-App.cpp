@@ -1,9 +1,9 @@
 //*****************************************************************************************
 //  Program Filename	: Checking Account Program
-//  Version				: 1.0
+//  Version				: 2.0
 //  Author				: Swagat Ghimire
 //  Purpose				: To provide basic banking functions
-//  Date				: October 8, 2015
+//  Date				: October 13 , 2015
 //*****************************************************************************************
 
 //Preprocessor Directives
@@ -14,7 +14,7 @@ using namespace std;
 //Name Constant Definitions
 class checking_account
 {
-	private:
+	protected:
 		int account_number;
 		float account_balance;
 	public:
@@ -33,6 +33,37 @@ class checking_account
 			cin >> account_balance;
 		}
 };
+
+class joint_account : public checking_account
+{
+	private:
+		long owner_ssn, joint_owner_ssn;
+	public:
+		joint_account()
+		{
+			cout << "\nWhat is the Owner's Social Security Number?";
+			do 
+			{
+				cout << "\nEnter 9 digits: ";
+				cin >> owner_ssn;		
+			} while (owner_ssn < 100000000 || owner_ssn > 999999999);
+			
+			cout << "\nWhat is Joint Owner's Social Security Number?";
+			do 
+			{
+				cout << "\nEnter 9 digits: ";
+				cin >> joint_owner_ssn;		
+			} while (joint_owner_ssn < 100000000 || joint_owner_ssn > 999999999);
+		}
+		void print_ssn();
+};
+
+void joint_account::print_ssn()
+		{
+			cout << "The Owner's SSN is:\t\t" << owner_ssn << endl;
+			cout << "The Joint Owner's SSN is:\t" << joint_owner_ssn << endl;
+			system ("Pause");
+		}
 
 void checking_account::input_transaction()
 {
@@ -86,13 +117,14 @@ char Menu()
 	cout << "What would you like to do?\n";
 	cout << "\t[1] Make Whithdrawal or Deposit\n";
 	cout << "\t[2] Show your current Balance\n";
+	cout << "\t[3] Show the owners' SSN numbers\n";
 	cout << "\t[0] Exit the Program\n";
 	
 	do
 	{
 		cout << "\nEnter your Decision: ";
 		cin >> userChoice;	
-	} while(userChoice != '0' && userChoice != '1' && userChoice != '2');
+	} while(userChoice != '0' && userChoice != '1' && userChoice != '2' && userChoice != '3');
 	
 	return userChoice;
 }
@@ -102,7 +134,7 @@ int main()
     char menuChoice;
     //Program Fucntions
 	Title();
-	checking_account userAccount;
+	joint_account userAccount;
 	
 	do
 	{
@@ -115,6 +147,9 @@ int main()
 						break;
 			case '2':	Title();
 						userAccount.print_balance();
+						break;
+			case '3':	Title();
+						userAccount.print_ssn();
 						break;
 		}
 	} while (menuChoice != '0');
